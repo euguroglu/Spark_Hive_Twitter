@@ -25,7 +25,7 @@ warehouse_location = abspath('spark-warehouse')
 #Create Spark Session to Connect Spark Cluster
 spark = SparkSession \
         .builder \
-        .master("yarn") \
+        .master("local[*]") \
         .appName("Spark_Hive") \
         .config("spark.streaming.stopGracefullyOnShutdown", "true") \
         .enableHiveSupport() \
