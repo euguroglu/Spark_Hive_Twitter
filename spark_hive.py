@@ -9,8 +9,9 @@ def save_to_hive_table(current_df, epoc_id):
     print("Inside save_to_hive_table function")
     print("Printing epoc_id: ")
     print(epoc_id)
-    current_df.registerTempTable("mytempTable")
-    spark.sql("INSERT INTO TABLE twitter select team, count, start, end from mytempTable")
+    current_df.write \
+        .format("csv")
+        .insertInto("twitter")
     print("Exit out of save_to_hive_table function")
 
 # Kafka Broker/Cluster Details
