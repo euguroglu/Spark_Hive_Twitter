@@ -113,6 +113,7 @@ console_query = window_count_df3 \
     .trigger(processingTime='2 minutes') \
     .outputMode("update") \
     .foreachBatch(save_to_hive_table) \
+    .option("checkpointLocation", "Hive/chk-point-dir") \
     .start()
 
 console_query.awaitTermination()
