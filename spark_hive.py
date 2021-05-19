@@ -31,6 +31,7 @@ spark = SparkSession \
         .enableHiveSupport() \
         .getOrCreate()
 
+spark.sparkContext.setLogLevel("ERROR")
 #spark.sql("CREATE TABLE IF NOT EXISTS src (key INT, value STRING) USING hive")
 #Preparing schema for tweets
 schema = StructType([
