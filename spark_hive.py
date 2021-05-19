@@ -105,10 +105,12 @@ spark.sql("""CREATE TABLE IF NOT EXISTS twitter
             LINES TERMINATED BY '\n'
             STORED AS TEXTFILE
                                                 """);
-# Save data to cassandra
-window_count_df3 \
+# Save data to hive
+console_query = window_count_df3 \
     .writeStream \
     .trigger(processingTime='2 minutes') \
     .outputMode("update") \
     .foreachBatch(save_to_hive_table) \
     .start()
+
+console_query.awaitTermination()
