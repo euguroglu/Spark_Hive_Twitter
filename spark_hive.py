@@ -10,7 +10,7 @@ def save_to_hive_table(current_df, epoc_id):
     print("Printing epoc_id: ")
     print(epoc_id)
     current_df.write \
-        .format("csv")
+        .format("csv") \
         .insertInto("twitter")
     print("Exit out of save_to_hive_table function")
 
