@@ -4,6 +4,15 @@ from pyspark.sql.types import *
 
 from os.path import abspath
 
+# Hive save foreachBatch udf function
+def save_to_hive_table(current_df, epoc_id):
+    print("Inside save_to_hive_table function")
+    print("Printing epoc_id: ")
+    print(epoc_id)
+
+    spark.sql("INSERT INTO TABLE twitter select team, count, start, end from {}".format(current_df))
+    print("Exit out of save_to_cassandra_table function")
+
 # Kafka Broker/Cluster Details
 KAFKA_TOPIC_NAME_CONS = "twittercounter"
 KAFKA_TOPIC2_NAME_CONS = "twittercounter2"
@@ -96,5 +105,10 @@ spark.sql("""CREATE TABLE IF NOT EXISTS twitter
             LINES TERMINATED BY '\n'
             STORED AS TEXTFILE
                                                 """);
-
-spark.sql("INSERT INTO TABLE twitter select team, count, start, end from mytempTable")
+# Save data to cassandra
+mytempTable \
+    .writeStream \
+    .trigger(processingTime='2 minutes') \
+    .outputMode("update") \
+    .foreachBatch(save_to_hive_table) \
+    .start()
