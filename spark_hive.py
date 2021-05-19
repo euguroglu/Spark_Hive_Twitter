@@ -10,8 +10,8 @@ def save_to_hive_table(current_df, epoc_id):
     print("Printing epoc_id: ")
     print(epoc_id)
 
-    spark.sql("INSERT INTO TABLE twitter select team, count, start, end from {}".format(current_df))
-    print("Exit out of save_to_cassandra_table function")
+    spark.sql("INSERT INTO TABLE twitter select team, count, start, end from current_df")
+    print("Exit out of save_to_hive_table function")
 
 # Kafka Broker/Cluster Details
 KAFKA_TOPIC_NAME_CONS = "twittercounter"
