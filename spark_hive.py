@@ -96,7 +96,7 @@ window_count_df = df \
 window_count_df2 = window_count_df.withColumn("start", expr("window.start"))
 window_count_df3 = window_count_df2.withColumn("end", expr("window.end")).drop("window")
 
-window_count_df3.createOrReplaceTempView("mytempTable")
+#window_count_df3.createOrReplaceTempView("mytempTable")
 
 spark.sql("""CREATE TABLE IF NOT EXISTS twitter
             (team string, count integer, start timestamp, end timestamp)
@@ -106,7 +106,7 @@ spark.sql("""CREATE TABLE IF NOT EXISTS twitter
             STORED AS TEXTFILE
                                                 """);
 # Save data to cassandra
-mytempTable \
+window_count_df3 \
     .writeStream \
     .trigger(processingTime='2 minutes') \
     .outputMode("update") \
