@@ -22,6 +22,16 @@ spark = SparkSession \
         .getOrCreate()
 
 #spark.sql("CREATE TABLE IF NOT EXISTS src (key INT, value STRING) USING hive")
+#Preparing schema for tweets
+schema = StructType([
+    StructField("timestamp_ms", StringType()),
+    StructField("text", StringType()),
+    StructField("user", StructType([
+        StructField("id", LongType()),
+        StructField("followers_count", IntegerType()),
+        StructField("friends_count", IntegerType()),
+        StructField("statuses_count", IntegerType())]))
+])
 
 kafka_df = spark.readStream \
     .format("kafka") \
